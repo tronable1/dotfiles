@@ -1,5 +1,5 @@
-autoload colors && colors
-# cheers, @ehrenmurdick
+autoload -Uz colors && colors
+#  cheers, @ehrenmurdick
 # http://github.com/ehrenmurdick/config/blob/master/zsh/prompt.zsh
 
 git_branch() {
