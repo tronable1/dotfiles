@@ -32,6 +32,10 @@ task :install do
     end
     `ln -s "$PWD/#{linkable}" "#{target}"` if !skip_all
   end
+
+  # Link the virtualenv.ini file to ~/.virtualenv/
+  `mkdir -p "$HOME/.virtualenv"`
+  `ln -s "$PWD/python/virtualenv.ini" "$HOME/.virtualenv/"`
 end
 
 task :uninstall do
