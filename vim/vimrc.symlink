@@ -94,7 +94,7 @@ set ofu=syntaxcomplete#Complete
 syntax on
 
 " Set our color theme here
-colorscheme symfony
+colorscheme Tomorrow-Night-Bright
 
 " ---------------------------------------------------------------------------
 " Vundle

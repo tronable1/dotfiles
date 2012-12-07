@@ -1,0 +1,1 @@
+/Users/matt/code/tomorrow-theme/vim/colors/Tomorrow-Night-Bright.vim
