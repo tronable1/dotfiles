@@ -1,0 +1,16 @@
+#!/usr/local/bin/zsh
+# This hook is run before every virtualenv is deactivated.
+
+project_name=`basename "$VIRTUAL_ENV"`
+
+# Unset our environment variables that we set for this particualr project.
+for var in `get-env $project_name`
+    unset `echo $var | awk -F "=" '{ print $1 }'`
+
+# Return the prompt back to the way it was before we activated the virtualenv.
+export PS1="$_OLD_PS1"
+export PROMPT="$_OLD_PROMPT"
+
+# Remove unneeded ENV vars.
+unset _OLD_PS1
+unset _OLD_PROMPT

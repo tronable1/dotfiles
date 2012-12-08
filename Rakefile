@@ -32,25 +32,6 @@ task :install do
     end
     `ln -s "$PWD/#{linkable}" "#{target}"` if !skip_all
   end
-
-  # Link the virtualenv.ini file to ~/.virtualenv/
-  `mkdir -p "$HOME/.virtualenv"`
-  target = "#{ENV["HOME"]}/.virtualenv/virtualenv.ini"
-
-  if File.exists?(target) || File.symlink?(target)
-    overwrite = false
-    backup = false
-
-    puts "File already exists: #{target}, what do you want to do? [s]kip, [o]verwrite, [b]ackup"
-    case STDIN.gets.chomp
-    when 's' then nil
-    when 'o' then overwrite = true
-    when 'b' then backup = true
-    end
-    FileUtils.rm_rf(target) if overwrite
-    `mv "#{target}" "#{target}.backup"` if backup
-  end
-  `ln -s "$PWD/python/virtualenv.ini" "#{target}"`
 end
 
 task :uninstall do
