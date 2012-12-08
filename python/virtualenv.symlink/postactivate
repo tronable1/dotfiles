@@ -12,8 +12,8 @@ export _OLD_PROMPT="`echo $PROMPT | sed s/\($project_name\)//`"
 # Set our new prompt strings.
 # Change "matt" if your username is matt and don't like the prompt strings.
 if [ "$USER" = "matt" ]; then
-    export PS1=$'\n(%{$fg_bold[magenta]%}$project_name%{$reset_color%}) $(rb_prompt) in $(directory_name) $(git_dirty)$(need_push)\n› '
-    export PROMPT=$'\n(%{$fg_bold[magenta]%}$project_name%{$reset_color%}) $(rb_prompt) in $(directory_name) $(git_dirty)$(need_push)\n› '
+    export PS1=$'\n(%{$fg_bold[green]%}$project_name%{$reset_color%}) $(rb_prompt) in $(directory_name) $(git_dirty)$(need_push)\n› '
+    export PROMPT=$'\n(%{$fg_bold[green]%}$project_name%{$reset_color%}) $(rb_prompt) in $(directory_name) $(git_dirty)$(need_push)\n› '
 else
     export PS1="(%{${fg[green]}%}$project_name%{$reset_color%}) $_OLD_PS1"
     export PROMPT="(%{${fg[green]}%}$project_name%{$reset_color%}) $_OLD_PROMPT"
