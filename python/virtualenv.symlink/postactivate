@@ -21,3 +21,8 @@ fi
 
 # Set project private ENV vars.
 export `get-env $project_name`
+
+# Make sure we cd into the project directory if it exists.
+if [ -d $PROJECT_HOME/$project_name ]; then
+    cd $PROJECT_HOME/$project_name
+fi
