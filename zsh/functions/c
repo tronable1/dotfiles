@@ -1,5 +1,9 @@
-if [ -d $WORKON_HOME/$1 ] && [ "$VIRTUAL_ENV" = "" ]; then
-    workon $1;
+if [ -z $1 ]; then
+  cd $PROJECT_HOME;
 else
+  if [ -d $WORKON_HOME/$1 ] && [ "$VIRTUAL_ENV" = "" ]; then
+    workon $1;
+  else
     cd $PROJECT_HOME/$1;
+  fi
 fi
