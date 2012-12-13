@@ -1,7 +1,14 @@
 require 'rake'
 
+# From ystein -> https://github.com/ystein/.files
+desc "Init and update git submodules."
+task :gitsubmodules do
+  %x(git submodule init && git submodule update)
+  raise "Could not set up git submodules. (#{$?})" unless $? == 0
+end
+
 desc "Hook our dotfiles into system-standard positions."
-task :install do
+task :install => :gitsubmodules do
   linkables = Dir.glob('*/**{.symlink}')
 
   skip_all = false
