@@ -55,7 +55,7 @@ rb_prompt(){
 todo(){
   if (( $+commands[todo.sh] ))
   then
-    num=$(echo $(todo.sh ls +next | wc -l))
+    num=$(echo $(todo.sh -d $HOME/.todo/todo.cfg ls +next | wc -l))
     let todos=num-2
     if [ $todos != 0 ]
     then
