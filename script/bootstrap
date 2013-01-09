@@ -1,13 +1,139 @@
 #!/bin/sh
 #
-# bootstrap installs things.
+# bootstrap
+#
+# Install dependencies.
 
-# Assume everyone's on OS X and run Homebrew (*nix-ers beware)
-if [ $(uname -s) = "Darwin" ] 
-then
-	. script/homebrew
+# Inspired bootstrap install scripts from:
+#   davidxia's dotfiles (https://github.com/davidxia/bootstrap_dotfiles/)
+#   joshdick's dotfiles (https://github.com/joshdick/dotfiles)
+
+
+die () {
+    # Error (red, underlined)
+    echo "\033[0;31;4mError\033[0m: $1"
+    exit 1
+}
+
+
+echo_with_color () {
+    # font color = blue
+    echo "\033[0;34m$1\033[0m"
+}
+
+
+install_dotfiles () {
+    echo_with_color "\nInstalling dotfiles to $HOME..."    
+
+    DOTFILES_ROOT="$( cd "$( dirname "$0" )" && cd .. && pwd )"
+
+    for file in `find $DOTFILES_ROOT -maxdepth 2 -name \*.symlink` ; do
+
+        # get absolute path of directory containg $file 
+        symlink_dir="$( cd "$( dirname "$file" )" && pwd )"
+
+        # get filename of $file (no path)
+        symlink_filename=`basename "$file"`
+
+        # create absolute paths of symlinks (for linking)
+        symlink_home=$file
+        symlink_dest=`echo "$HOME/.$symlink_filename" | sed "s/\.symlink$//g"`
+
+        # link files
+        if [ -f $symlink_dest ] || [ -d $symlink_dest ] ; then
+            echo "$symlink_dest already exists; skipping it..."
+        else
+            ln -sv $symlink_home $symlink_dest
+        fi
+
+    done
+}
+
+
+install_homebrew () {
+    echo_with_color "\nChecking if homebrew is already installed..."
+    if [ -x /usr/local/bin/brew ] ; then
+        echo "Homebrew is already installed."
+    else
+        die "Homebrew not installed."
+    fi
+}
+
+
+install_homebrew_pkgs () {
+    echo_with_color "\nUpdating homebrew package list..."
+    brew update
+
+    echo_with_color "\nInstalling homebrew packages..."
+
+    # git 
+    brew install git git-extras
+
+    # shells
+    brew install --disable-etcdir zsh
+
+    # editors
+    brew install macvim --override-system-vim
+
+    # tools
+    brew install ack
+    brew install coreutils
+    brew install z
+    
+    # languages
+    brew install python
+    brew install ruby 
+}
+
+
+install_pip_pkgs () {
+    echo_with_color "\nInstalling pip packages..."
+    pip install --upgrade distribute
+    pip install --upgrade pip
+}
+
+
+install_vundle () {
+    echo_with_color "\nChecking if vundle is already installed..."
+
+    # create vundle directory
+    if [ ! -d $HOME/.vim/bundle/vundle/ ] ; then
+        mkdir -p $HOME/.vim/bundle/vundle
+    fi
+    
+    # install vundle
+    if [ ! -d $HOME/.vim/bundle/vundle/.git/ ] ; then
+        echo "Vundle not installed. Installing now..."
+        git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+    else
+        echo "Vundle is already installed."
+    fi
+}
+
+
+install_vundle_pkgs () {
+    echo_with_color "\nInstalling vundle packages..."
+
+    # check that vim is installed
+    if test ! $(which vim) ; then
+        die "Vim not installed."
+    fi
+
+    # install packages
+    vim -c "execute \"BundleInstall\" | q | q"
+}
+
+
+# OS-agnostic settings
+install_dotfiles
+
+# OS-specific settings
+if [ $(uname -s) = "Darwin" ] ; then
+    install_homebrew
+    install_homebrew_pkgs 
+    install_pip_pkgs
 fi
 
-# Run the install (I'd like to pull this out of rake, eventually)
-rake install
-
+# install all other dependencies
+install_vundle
+install_vundle_pkgs
