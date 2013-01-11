@@ -6,8 +6,8 @@
 [hub]
         protocol = https
 [user]
-        name = Zach Holman
-        email = zach@zachholman.com
+        name = Matt Emborsky
+        email = memborsky@gmail.com
         helper = /opt/boxen/bin/boxen-git-credential
         # FIXME: You'll want the `helper` line below; delete the one above.
         # helper = osxkeychain
