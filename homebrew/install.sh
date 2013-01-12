@@ -73,6 +73,7 @@ then
   # Install homebrew packages
   brew install grc coreutils spark
 else
+  output=$1
   brew_installed () {
     brew list | grep -i $1 > /dev/null
     [ $? -eq 0 ]
