@@ -8,132 +8,114 @@
 #   davidxia's dotfiles (https://github.com/davidxia/bootstrap_dotfiles/)
 #   joshdick's dotfiles (https://github.com/joshdick/dotfiles)
 
+OUTPUT=/tmp/dotfiles-bootstrap
+DOTFILES_ROOT="`pwd`"
 
-die () {
-    # Error (red, underlined)
-    echo "\033[0;31;4mError\033[0m: $1"
-    exit 1
+set -e
+
+echo ''
+echo '' > $OUTPUT
+
+info () {
+  printf "  [ \033[00;34m..\033[0m ] $1"
 }
 
-
-echo_with_color () {
-    # font color = blue
-    echo "\033[0;34m$1\033[0m"
+user () {
+  printf "\r  [ \033[00;34mUser Input Needed\033[0m ] $1 "
 }
 
+success () {
+  printf "\r\033[2K  [ \033[00;32mok\033[0m ] $1\n"
+}
+
+fail () {
+  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
+  echo ''
+  echo "See $OUTPUT for more information."
+  exit
+}
+
+configure_git () {
+  if ! [ -f git/gitconfig.symlink ]
+  then
+    info 'gitconfig'
+    user ' - What is your github author name?'
+    read -e git_authorname
+    user ' - What is your github author email?'
+    read -e git_authoremail
+
+    sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" git/gitconfig.symlink.example > git/gitconfig.symlink
+    success 'gitconfig'
+  fi
+
+  info 'git submodule init'
+  git submodule init >> $OUTPUT 2>&1
+  success 'git submodule init'
+
+  info 'git submodule update'
+  git submodule init >> $OUTPUT 2>&1
+  success 'git submodule update'
+}
+
+link_files () {
+  ln -s $1 $2
+  success "linked $1 to $2"
+}
 
 install_dotfiles () {
-    echo_with_color "\nInstalling dotfiles to $HOME..."    
+  info 'installing dotfiles'
 
-    DOTFILES_ROOT="$( cd "$( dirname "$0" )" && cd .. && pwd )"
+  for file in `find $DOTFILES_ROOT -maxdepth 2 -name \*.symlink`
+  do
+    dest="$HOME/.`basename \"${file%.*}\"`"
 
-    for file in `find $DOTFILES_ROOT -maxdepth 2 -name \*.symlink` ; do
+    if [ -f $dest ] || [ -d $dest ]
+    then
+      while true
+      do
+        user "`basename $file` exists - [s]kip, [o]verwrite, [b]ackup?"
+        read -n 1 action
 
-        # get absolute path of directory containg $file 
-        symlink_dir="$( cd "$( dirname "$file" )" && pwd )"
+        case "$action" in
+          o )
+            rm -rf $dest
+            success "removed $dest"
 
-        # get filename of $file (no path)
-        symlink_filename=`basename "$file"`
+            link_files $file $dest
 
-        # create absolute paths of symlinks (for linking)
-        symlink_home=$file
-        symlink_dest=`echo "$HOME/.$symlink_filename" | sed "s/\.symlink$//g"`
+            break
+            ;;
+          b )
+            mv $dest $dest\.backup
+            success "moved $dest to $dest.backup"
 
-        # link files
-        if [ -f $symlink_dest ] || [ -d $symlink_dest ] ; then
-            echo "$symlink_dest already exists; skipping it..."
-        else
-            ln -sv $symlink_home $symlink_dest
-        fi
+            link_files $file $dest
 
-    done
-}
+            break
+            ;;
+          s )
+            success "skipped $file"
+            break
+            ;;
+          * )
+            ;;
+        esac
+      done
 
-
-install_homebrew () {
-    echo_with_color "\nChecking if homebrew is already installed..."
-    if [ -x /usr/local/bin/brew ] ; then
-        echo "Homebrew is already installed."
     else
-        die "Homebrew not installed."
-    fi
-}
-
-
-install_homebrew_pkgs () {
-    echo_with_color "\nUpdating homebrew package list..."
-    brew update
-
-    echo_with_color "\nInstalling homebrew packages..."
-
-    # git 
-    brew install git git-extras
-
-    # shells
-    brew install --disable-etcdir zsh
-
-    # editors
-    brew install macvim --override-system-vim
-
-    # tools
-    brew install ack
-    brew install coreutils
-    brew install z
-    
-    # languages
-    brew install python
-    brew install ruby 
-}
-
-
-install_pip_pkgs () {
-    echo_with_color "\nInstalling pip packages..."
-    pip install --upgrade distribute
-    pip install --upgrade pip
-}
-
-
-install_vundle () {
-    echo_with_color "\nChecking if vundle is already installed..."
-
-    # create vundle directory
-    if [ ! -d $HOME/.vim/bundle/vundle/ ] ; then
-        mkdir -p $HOME/.vim/bundle/vundle
-    fi
-    
-    # install vundle
-    if [ ! -d $HOME/.vim/bundle/vundle/.git/ ] ; then
-        echo "Vundle not installed. Installing now..."
-        git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
-    else
-        echo "Vundle is already installed."
-    fi
-}
-
-
-install_vundle_pkgs () {
-    echo_with_color "\nInstalling vundle packages..."
-
-    # check that vim is installed
-    if test ! $(which vim) ; then
-        die "Vim not installed."
+      link_files $file $dest
     fi
 
-    # install packages
-    vim -c "execute \"BundleInstall\" | q | q"
+  done
+
+  success 'dotfiles'
 }
 
-
-# OS-agnostic settings
+configure_git
 install_dotfiles
 
-# OS-specific settings
-if [ $(uname -s) = "Darwin" ] ; then
-    install_homebrew
-    install_homebrew_pkgs 
-    install_pip_pkgs
-fi
+# If we are on a mac, lets install and setup homebrew
+[ "$(uname -s)" == "Darwin" ] && . homebrew/install.sh $OUTPUT
 
-# install all other dependencies
-install_vundle
-install_vundle_pkgs
+echo ''
+echo '  All installed!'
