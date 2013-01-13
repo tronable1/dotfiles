@@ -100,3 +100,5 @@ else
   brew_install coreutils
   brew_install spark
 fi
+
+exit 0
