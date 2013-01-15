@@ -45,10 +45,11 @@ case "$1" in
           then
             info "updating $project"
             remote=$(git remote -v | grep -v https | awk '/.*'"$GITHUB_USERNAME"'.*push/ {print $1}')
+            branch=$(git branch | grep "*" | awk '{print $2}')
 
             if $(git push $remote HEAD >> $OUTPUT 2>&1)
             then
-              success "pushed $project"
+              success "pushed $project/$branch"
             else
               fail "$project"
             fi
