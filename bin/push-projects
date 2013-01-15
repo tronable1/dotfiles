@@ -7,6 +7,28 @@
 # Change to your github username.
 GITHUB_USERNAME="memborsky"
 
+OUTPUT=/tmp/push-projects
+
+set -e
+
+echo ''
+echo '' > $OUTPUT
+
+info () {
+  printf "  [ \033[00;34m..\033[0m ] $1"
+}
+
+success () {
+  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
+}
+
+fail () {
+  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
+  echo ''
+  echo "  See $OUTPUT for more information."
+  exit
+}
+
 if ! [ -z "$PROJECT_HOME" ]
 then
   CURRENT_PATH=$(pwd)
@@ -19,9 +41,15 @@ then
     then
       if ! [ -z "$(git cherry -v @{upstream} 2> /dev/null)" ]
       then
+        info "updating $project"
         remote=$(git remote -v | grep -v https | awk '/.*'"$GITHUB_USERNAME"'.*push/ {print $1}')
 
-        git push $remote HEAD
+        if $(git push $remote HEAD >> $OUTPUT 2>&1)
+        then
+          success "pushed $project"
+        else
+          fail "$project"
+        fi
       fi
     fi
   done
