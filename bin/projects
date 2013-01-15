@@ -29,30 +29,34 @@ fail () {
   exit
 }
 
-if ! [ -z "$PROJECT_HOME" ]
-then
-  CURRENT_PATH=$(pwd)
-
-  for project in $(ls $PROJECT_HOME)
-  do
-    cd $PROJECT_HOME/$project
-
-    if [ -d .git ]
+case "$1" in
+  push )
+    if ! [ -z "$PROJECT_HOME" ]
     then
-      if ! [ -z "$(git cherry -v @{upstream} 2> /dev/null)" ]
-      then
-        info "updating $project"
-        remote=$(git remote -v | grep -v https | awk '/.*'"$GITHUB_USERNAME"'.*push/ {print $1}')
+      CURRENT_PATH=$(pwd)
 
-        if $(git push $remote HEAD >> $OUTPUT 2>&1)
+      for project in $(ls $PROJECT_HOME)
+      do
+        cd $PROJECT_HOME/$project
+
+        if [ -d .git ]
         then
-          success "pushed $project"
-        else
-          fail "$project"
-        fi
-      fi
-    fi
-  done
+          if ! [ -z "$(git cherry -v @{upstream} 2> /dev/null)" ]
+          then
+            info "updating $project"
+            remote=$(git remote -v | grep -v https | awk '/.*'"$GITHUB_USERNAME"'.*push/ {print $1}')
 
-  cd $CURRENT_PATH
-fi
+            if $(git push $remote HEAD >> $OUTPUT 2>&1)
+            then
+              success "pushed $project"
+            else
+              fail "$project"
+            fi
+          fi
+        fi
+      done
+
+      cd $CURRENT_PATH
+    fi
+    ;;
+esac
