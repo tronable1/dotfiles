@@ -13,5 +13,6 @@
   "show_minimap": true,
   "trim_trailing_white_space_on_save": true,
   "highlight_modified_tabs": true,
-  "open_files_in_new_window": false
+  "open_files_in_new_window": false,
+  "auto_complete_delay": 200
 }
