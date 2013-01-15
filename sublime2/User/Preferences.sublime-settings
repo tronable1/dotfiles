@@ -12,5 +12,6 @@
   "rulers": [ 120 ],
   "show_minimap": true,
   "trim_trailing_white_space_on_save": true,
-  "highlight_modified_tabs": true
+  "highlight_modified_tabs": true,
+  "open_files_in_new_window": false
 }
