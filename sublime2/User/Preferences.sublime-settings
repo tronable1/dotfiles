@@ -1,4 +1,22 @@
 {
+	"auto_complete_delay": 200,
+	"color_scheme": "Packages/Tomorrow Color Schemes/Tomorrow-Night-Eighties.tmTheme",
+	"drawWhiteSpace": true,
 	"font_size": 12.0,
-	"theme": "Soda Dark.sublime-theme"
+	"highlight_modified_tabs": true,
+	"matchBracketsAngle": true,
+	"matchBracketsBraces": true,
+	"matchBracketsSquare": true,
+	"open_files_in_new_window": false,
+	"rulers":
+	[
+		120
+	],
+	"show_minimap": true,
+	"tab_size": 2,
+	"theme": "Soda Dark.sublime-theme",
+	"translate_tabs_to_spaces": true,
+	"trim_trailing_white_space_on_save": true,
+	"vintage_start_in_command_mode": true,
+	"word_wrap": false
 }

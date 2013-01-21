@@ -1,0 +1,63 @@
+#!/bin/sh
+#
+# Push updates to all of your projects in one command.
+#
+# Assumes you are using my dotfiles from github.com/memborsky/dotfiles
+
+# Change to your github username.
+GITHUB_USERNAME="memborsky"
+
+OUTPUT=/tmp/push-projects
+
+set -e
+
+echo ''
+echo '' > $OUTPUT
+
+info () {
+  printf "  [ \033[00;34m..\033[0m ] $1"
+}
+
+success () {
+  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
+}
+
+fail () {
+  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
+  echo ''
+  echo "  See $OUTPUT for more information."
+  exit
+}
+
+case "$1" in
+  push )
+    if ! [ -z "$PROJECT_HOME" ]
+    then
+      CURRENT_PATH=$(pwd)
+
+      for project in $(ls $PROJECT_HOME)
+      do
+        cd $PROJECT_HOME/$project
+
+        if [ -d .git ]
+        then
+          if ! [ -z "$(git cherry -v @{upstream} 2> /dev/null)" ]
+          then
+            info "updating $project"
+            remote=$(git remote -v | grep -v https | awk '/.*'"$GITHUB_USERNAME"'.*push/ {print $1}')
+            branch=$(git branch | grep "*" | awk '{print $2}')
+
+            if $(git push $remote HEAD >> $OUTPUT 2>&1)
+            then
+              success "pushed $project/$branch"
+            else
+              fail "$project"
+            fi
+          fi
+        fi
+      done
+
+      cd $CURRENT_PATH
+    fi
+    ;;
+esac

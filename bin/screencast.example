@@ -1,0 +1,16 @@
+#!/bin/sh -xe
+
+INFO=$(xwininfo -frame)
+API_KEY="YOUR_API_KEY_GOES_HERE"
+
+WIN_GEO=$(echo $INFO | grep -oEe 'geometry [0-9]+x[0-9]+' | grep -oEe '[0-9]+x[0-9]+')
+WIN_XY=$(echo $INFO | grep -oEe 'Corners:\s+\+[0-9]+\+[0-9]+' | grep -oEe '[0-9]+\+[0-9]+' | sed -e 's/\+/,/' )
+FPS="15"
+
+INRES='1680x1010'
+OUTRES='1280x720'
+
+ffmpeg -f x11grab -s "$INRES" -r "$FPS" -i :0.0+$WIN_XY \
+    -f alsa -ac 2 -i default -vcodec libx264  -s "$OUTRES"  \
+    -acodec libmp3lame -ab 128k -ar 44100 -threads 0 \
+    -f flv "rtmp://live.justin.tv/app/$API_KEY"
