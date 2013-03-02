@@ -1,4 +1,4 @@
-wrapper=/usr/local/share/python/virtualenvwrapper.sh
+wrapper=$(which virtualenvwrapper.sh)
 
 # Unless the file exists, don't continue.
 if [ -f $wrapper ]
