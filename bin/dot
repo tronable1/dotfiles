@@ -55,6 +55,27 @@ then
   fi
 fi
 
+
+# Cleanup brew
+if [ ! -z "$(brew cleanup -sn)" ]
+then
+  info 'The following would take place from "brew cleanup -s":\n'
+
+  brew cleanup -sn
+
+  user 'Would you like to perform this action [y]es / [n]o?'
+  read action
+
+  if [ "$action" == "y" ]
+  then
+    brew cleanup -s
+    success 'Brew cleaned'
+  else
+    success 'Brew not cleaned'
+  fi
+fi
+
+
 echo ''
 printf "    You are all set to go!"
 echo ''
