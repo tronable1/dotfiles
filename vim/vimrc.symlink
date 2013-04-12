@@ -95,7 +95,7 @@ set ofu=syntaxcomplete#Complete
 syntax on
 
 " Set our color theme here
-colorscheme Tomorrow-Night-Bright
+colorscheme Tomorrow-Night
 
 " ---------------------------------------------------------------------------
 " Vundle
