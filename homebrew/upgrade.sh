@@ -30,11 +30,14 @@ then
 
       case "$action" in
         y )
-          yes=true;;
+          yes=true
+          ;;
         Y )
-          yes_all=true;;
+          yes_all=true
+          ;;
         N )
-          break;;
+          break
+          ;;
         * )
           ;;
       esac
