@@ -54,6 +54,11 @@ then
     do
       info "Installing $package"
 
+      if [ "$package" == "nginx" ]
+      then
+        info "Make sure to update the nginx plist in /Library/LaunchAgents/."
+      fi
+
       if $(brew upgrade $package > /tmp/dot-upgrade 2>&1)
       then
         success "Upgraded $package"
