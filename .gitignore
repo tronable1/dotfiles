@@ -6,3 +6,4 @@ config/config.symlink/pianobar/state
 sublime/User/Package Control.cache/
 sublime/User/Package Control.system-ca-bundle
 config/config.symlink/beets/
+config/config.symlink/hub
