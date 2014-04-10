@@ -1,3 +1,9 @@
+.atom/.node-gyp
+.atom/.storage
+.atom/packages
+.atom/storage
+.atom/themes
+
 sublime/User/Package\ Control.sublime-settings
 sublime/User/Package Control.last-run
 python/virtualenv.symlink/hook.log*
@@ -8,4 +14,3 @@ sublime/User/Package Control.system-ca-bundle
 config/config.symlink/beets/
 config/config.symlink/hub
 config/config.symlink/configstore
-
