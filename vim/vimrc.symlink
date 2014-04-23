@@ -96,12 +96,3 @@ syntax on
 
 " Set our color theme here
 colorscheme wombat
-
-" ---------------------------------------------------------------------------
-" Vundle
-" ---------------------------------------------------------------------------
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-Bundle 'gmarik/vundle'
-Bundle 'juvenn/mustache.vim'
