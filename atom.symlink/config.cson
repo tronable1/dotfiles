@@ -1,49 +1,48 @@
-'editor':
-  'fontFamily': 'Source Code Pro'
-  'fontSize': 15
-  'showIndentGuide': true
-'core':
-  'excludeVcsIgnoredPaths': true
-  'ignoredNames': [
-    '.bundle'
-    '.git'
-    'log'
-    'repositories'
-    'tmp'
-    'vendor'
-  ]
-  'themes': [
-    'unity-ui'
-    'atom-dark-syntax'
-  ]
-  'hideGitIgnoredFiles': true
-  'disabledPackages': [
-    'background-tips'
-    'metrics'
-    'dev-live-reload'
-    'exception-reporting'
-  ]
-'spell-check':
-  'grammars': [
-    'text.plain'
-    'source.gfm'
-    'text.git-commit'
-  ]
-'welcome':
-  'showOnStartup': false
-'release-notes':
-  'viewedVersion': '0.90.0'
-'tree-view': {}
-'autosave':
-  'enabled': true
-'exception-reporting': {}
-'find-and-replace': {}
-'git-diff':
-  'showIconsInEditorGutter': true
-'markdown-preview':
-  'grammars': [
-    'source.gfm'
-    'source.litcoffee'
-    'text.plain'
-    'text.plain.null-grammar'
-  ]
+'global':
+  'editor':
+    'fontFamily': 'Source Code Pro'
+    'fontSize': 15
+    'showIndentGuide': true
+    'invisibles': {}
+    'useShadowDOM': true
+  'core':
+    'ignoredNames': [
+      '.bundle'
+      '.git'
+      'log'
+      'repositories'
+      'tmp'
+      'vendor'
+    ]
+    'themes': [
+      'seti-ui'
+      'seti-syntax'
+    ]
+    'hideGitIgnoredFiles': true
+    'disabledPackages': [
+      'background-tips'
+      'metrics'
+      'dev-live-reload'
+      'exception-reporting'
+    ]
+  'spell-check':
+    'grammars': [
+      'text.plain'
+      'source.gfm'
+      'text.git-commit'
+    ]
+  'welcome':
+    'showOnStartup': false
+  'release-notes':
+    'viewedVersion': '0.90.0'
+  'autosave':
+    'enabled': true
+  'git-diff':
+    'showIconsInEditorGutter': true
+  'markdown-preview':
+    'grammars': [
+      'source.gfm'
+      'source.litcoffee'
+      'text.plain'
+      'text.plain.null-grammar'
+    ]
