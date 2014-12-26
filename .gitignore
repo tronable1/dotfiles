@@ -3,6 +3,10 @@ atom.symlink/.storage
 atom.symlink/packages
 atom.symlink/storage
 atom.symlink/themes
+atom.symlink/.npm/
+atom.symlink/atom-shell/
+atom.symlink/compile-cache/
+atom.symlink/nohup.out
 
 bin/composer
 
