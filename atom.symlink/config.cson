@@ -1,48 +1,17 @@
 'global':
-  'editor':
-    'fontFamily': 'Source Code Pro'
-    'fontSize': 15
-    'showIndentGuide': true
-    'invisibles': {}
-    'useShadowDOM': true
+  'exception-reporting':
+    'userId': '5125422d-a4ad-7300-c0ea-1eba70446e55'
   'core':
-    'ignoredNames': [
-      '.bundle'
-      '.git'
-      'log'
-      'repositories'
-      'tmp'
-      'vendor'
-    ]
     'themes': [
       'seti-ui'
-      'seti-syntax'
+      'earthsong'
     ]
-    'hideGitIgnoredFiles': true
-    'disabledPackages': [
-      'background-tips'
-      'metrics'
-      'dev-live-reload'
-      'exception-reporting'
-    ]
-  'spell-check':
-    'grammars': [
-      'text.plain'
-      'source.gfm'
-      'text.git-commit'
-    ]
+  'editor':
+    'fontFamily': 'Source Code Pro'
+    'lineHeight': 1.7
+    'showInvisibles': true
+    'showIndentGuide': true
+    'preferredLineLength': 120
+    'invisibles': {}
   'welcome':
     'showOnStartup': false
-  'release-notes':
-    'viewedVersion': '0.90.0'
-  'autosave':
-    'enabled': true
-  'git-diff':
-    'showIconsInEditorGutter': true
-  'markdown-preview':
-    'grammars': [
-      'source.gfm'
-      'source.litcoffee'
-      'text.plain'
-      'text.plain.null-grammar'
-    ]
