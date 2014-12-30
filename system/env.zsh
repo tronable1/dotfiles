@@ -1,4 +1,4 @@
-export EDITOR='subl'
+export EDITOR='atom'
 
 # This is defaulting us to a django development machine.
 export DJANGO_DEVELOPMENT='True'
