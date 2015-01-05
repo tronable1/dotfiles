@@ -1,0 +1,2 @@
+'.platform-linux .editor':
+  'shift-ctrl-l': 'editor:split-selections-into-lines'
