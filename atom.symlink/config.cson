@@ -1,10 +1,10 @@
-'global':
+'*':
   'exception-reporting':
     'userId': '5125422d-a4ad-7300-c0ea-1eba70446e55'
   'core':
     'themes': [
       'seti-ui'
-      'earthsong'
+      'peacock'
     ]
   'editor':
     'fontFamily': 'Source Code Pro'
