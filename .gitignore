@@ -19,4 +19,4 @@ sublime/User/Package Control.system-ca-bundle
 
 config/config.symlink/
 !config/config.symlink/pianobar
-
+!config/config.symlink/Mutate/config.ini
