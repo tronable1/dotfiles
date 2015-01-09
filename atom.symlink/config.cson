@@ -1,6 +1,5 @@
 '*':
   'core':
-    'projectHome': '/home/matt/code'
     'themes': [
       'seti-ui'
       'peacock'
@@ -8,8 +7,13 @@
   'editor':
     'fontFamily': 'Source Code Pro'
     'lineHeight': 1.7
+    'showInvisibles': true
+    'showIndentGuide': true
     'preferredLineLength': 120
     'scrollPastEnd': true
-    'showIndentGuide': true
-    'showInvisibles': true
     'invisibles': {}
+    'tabLength': 4
+  'exception-reporting':
+    'userId': '8cfae35f-a74d-fe92-21f7-a692a4caa4fb'
+  'welcome':
+    'showOnStartup': false
