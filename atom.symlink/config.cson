@@ -1,19 +1,21 @@
-'*':
-  'core':
-    'themes': [
-      'seti-ui'
-      'peacock'
+"*":
+  core:
+    themes: [
+      "one-light-ui"
+      "pumpkin-syntax"
     ]
-  'editor':
-    'fontFamily': 'Source Code Pro'
-    'lineHeight': 1.7
-    'showInvisibles': true
-    'showIndentGuide': true
-    'preferredLineLength': 120
-    'scrollPastEnd': true
-    'invisibles': {}
-    'tabLength': 4
-  'exception-reporting':
-    'userId': '8cfae35f-a74d-fe92-21f7-a692a4caa4fb'
-  'welcome':
-    'showOnStartup': false
+  editor:
+    invisibles: {}
+    lineHeight: 1.7
+    preferredLineLength: 120
+    scrollPastEnd: true
+    showIndentGuide: true
+    showInvisibles: true
+    tabLength: 4
+  "exception-reporting":
+    userId: "8cfae35f-a74d-fe92-21f7-a692a4caa4fb"
+  minimap:
+    plugins:
+      pigments: true
+  welcome:
+    showOnStartup: false
