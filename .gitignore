@@ -7,6 +7,9 @@ atom.symlink/.npm/
 atom.symlink/atom-shell/
 atom.symlink/compile-cache/
 atom.symlink/nohup.out
+atom.symlink/.apm/
+atom.symlink/blob-store/
+atom.symlink/electron/
 
 bin/composer
 
