@@ -11,7 +11,16 @@ fi
 
 docker=$(which docker)
 service='mopidy-server.service'
-is_running="$docker ps --quiet --filter name=$service"
+
+is_running()
+{
+    if [ -n "$($docker ps --quiet --filter name=$service)" ]
+    then
+        return 1
+    fi
+
+    return 0
+}
 
 stop()
 {
@@ -51,11 +60,11 @@ scan()
 
 if [ "$1" = "start" ]
 then
-    id=$($is_running)
+    is_running
 
-    if [ -n $id ]
+    if [ $? -eq "1" ]
     then
-        echo "Service already running with a container id: $id"
+        echo "Service is already running, check '$docker ps' for the container named $service"
         exit 0
     fi
 
@@ -63,7 +72,9 @@ then
     exit 0
 elif [ "$1" = "stop" ]
 then
-    if [ -n $($is_running) ]
+    is_running
+
+    if [ $? -eq "1" ]
     then
         stop
         exit 0
@@ -72,7 +83,9 @@ then
     exit 1
 elif [ "$1" = "restart" ]
 then
-    if [ -n $($is_running) ]
+    is_running
+
+    if [ $? -eq "1" ]
     then
         stop
     fi
@@ -82,14 +95,15 @@ then
 elif [ "$1" = "scan" ]
 then
     command="mopidy --config=/etc/mopidy/mopidy.conf local scan"
+    is_running
 
-    if [ -n $($is_running) ]
+    if [ $? -eq "1" ]
     then
-        execute "run --rm" "memborsky/mopidy-server:latest $command"
+        $docker exec $service $command
         exit 0
     fi
 
-    execute "exec" "$service $command"
+    execute "run --rm" "memborsky/mopidy-server:latest $command"
     exit 0
 fi
 
