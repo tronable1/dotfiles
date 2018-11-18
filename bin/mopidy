@@ -1,0 +1,97 @@
+#!/bin/sh
+#
+# Helpers to deal with starting and updating mopidy library
+#
+
+if [ ! -x /usr/bin/docker ]
+then
+    echo "docker not found in PATH"
+    exit 1
+fi
+
+docker=$(which docker)
+service='mopidy-server.service'
+is_running="$docker ps --quiet --filter name=$service"
+
+stop()
+{
+    $docker stop $service && $docker rm $service
+}
+
+execute()
+{
+    command=$1
+    shift;
+
+    $docker $command \
+        --name $service \
+        --env SPOTIFY_USERNAME=${SPOTIFY_USERNAME} \
+        --env SPOTIFY_PASSWORD=${SPOTIFY_PASSWORD} \
+        --env SPOTIFY_CLIENT_ID=${SPOTIFY_CLIENT_ID} \
+        --env SPOTIFY_CLIENT_SECRET=${SPOTIFY_CLIENT_SECRET} \
+        --env SOUNDCLOUD_AUTH_TOKEN=${SOUNDCLOUD_AUTH_TOKEN} \
+        --volume /media/music/:/media:ro \
+        --volume /media/mopidy:/var/lib/mopidy \
+        --publish 6680:6680 \
+        --user root \
+        --device /dev/snd \
+        $@
+}
+
+start()
+{
+    execute "run --detach" "memborsky/mopidy-server:latest"
+}
+
+
+scan()
+{
+    execute "run"
+}
+
+if [ "$1" = "start" ]
+then
+    id=$($is_running)
+
+    if [ -n $id ]
+    then
+        echo "Service already running with a container id: $id"
+        exit 0
+    fi
+
+    start
+    exit 0
+elif [ "$1" = "stop" ]
+then
+    if [ -n $($is_running) ]
+    then
+        stop
+        exit 0
+    fi
+
+    exit 1
+elif [ "$1" = "restart" ]
+then
+    if [ -n $($is_running) ]
+    then
+        stop
+    fi
+
+    start
+    exit 0
+elif [ "$1" = "scan" ]
+then
+    command="mopidy --config=/etc/mopidy/mopidy.conf local scan"
+
+    if [ -n $($is_running) ]
+    then
+        execute "run --rm" "memborsky/mopidy-server:latest $command"
+        exit 0
+    fi
+
+    execute "exec" "$service $command"
+    exit 0
+fi
+
+echo "print help ...."
+
