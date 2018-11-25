@@ -61,7 +61,18 @@ battery_status() {
   fi
 }
 
-export PROMPT=$'\n$(battery_status)in $(directory_name) $(git_dirty)$(need_push)\n› '
+get_hostname() {
+  HOSTNAME_COLOR="%{$fg_bold[green]%}"
+
+  if [ "$(whoami)" = "root" ]
+  then
+    HOSTNAME_COLOR="%{$fg_bold[red]%}"
+  fi
+
+  echo "$HOSTNAME_COLOR$(hostname)%{$reset_color%}"
+}
+
+export PROMPT=$'\n$(battery_status)in $(directory_name) $(git_dirty)$(need_push)\n$(get_hostname)› '
 set_prompt () {
   export RPROMPT="%{$fg_bold[cyan]%}%{$reset_color%}"
 }
